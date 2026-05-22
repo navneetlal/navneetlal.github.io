@@ -1,0 +1,34 @@
+---
+export interface Props {
+  href: string;
+  tone?: 'dark' | 'light' | 'muted';
+  underline?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  tone = 'dark',
+  underline = false,
+  class: extra = '',
+} = Astro.props;
+
+const toneClass = {
+  dark: 'text-ink-900 hover:text-ink-700',
+  light: 'text-paper hover:text-ink-300',
+  muted: 'text-ink-500 hover:text-ink-900',
+}[tone];
+---
+
+<a
+  href={href}
+  class:list={[
+    'group inline-flex items-center gap-1 text-sm font-semibold transition-colors',
+    underline && 'underline underline-offset-4',
+    toneClass,
+    extra,
+  ]}
+>
+  <slot />
+  <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">→</span>
+</a>

@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+import EyebrowLabel from '../components/ui/EyebrowLabel.astro';
+import ArrowLink from '../components/ui/ArrowLink.astro';
+import Hero from '../components/home/Hero.astro';
+import CurrentlyStrip from '../components/home/CurrentlyStrip.astro';
+import WorkCard from '../components/cards/WorkCard.astro';
+import PostCard from '../components/cards/PostCard.astro';
+
+const allWork = await getCollection('work', ({ data }) => !data.draft);
+const featuredWork = allWork
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+const allWriting = await getCollection('writing', ({ data }) => !data.draft);
+const latestWriting = allWriting
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title="Navneet Lal Gupta — backend tech lead"
+  description="Backend tech lead writing about distributed systems, data platforms, and large-scale migrations."
+>
+  <Hero />
+  <CurrentlyStrip />
+
+  <section class="bg-paper">
+    <Container class="py-16 md:py-20">
+      <EyebrowLabel label="SELECTED WORK" />
+      <div class="mt-4 flex items-end justify-between gap-4">
+        <h2 class="text-3xl font-bold tracking-tight text-ink-900 md:text-[32px]">
+          Things I've built and led
+        </h2>
+        <ArrowLink href="/work/" underline>See all</ArrowLink>
+      </div>
+
+      <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {
+          featuredWork.map((entry, idx) => (
+            <li>
+              <WorkCard entry={entry} caseNumber={idx + 1} />
+            </li>
+          ))
+        }
+      </ul>
+
+      <p class="mt-10 text-xs text-ink-500">
+        Also: Java 8→17 upgrade across 35 services · Node 8→18 across 8
+        services · Kafka+Cassandra activity ingestion platform
+      </p>
+    </Container>
+  </section>
+
+  <section class="bg-paper-soft">
+    <Container class="py-16 md:py-20">
+      <EyebrowLabel label="WRITING" />
+      <div class="mt-4 flex items-end justify-between gap-4">
+        <h2 class="text-3xl font-bold tracking-tight text-ink-900 md:text-[32px]">
+          Notes from the work
+        </h2>
+        <ArrowLink href="/writing/" underline>All posts</ArrowLink>
+      </div>
+
+      <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {
+          latestWriting.map((entry) => (
+            <li>
+              <PostCard entry={entry} />
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </section>
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+import WorkHeader from '../../components/post/WorkHeader.astro';
+import PostBody from '../../components/post/PostBody.astro';
+import AuthorBio from '../../components/post/AuthorBio.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('work', ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+---
+
+<PostLayout
+  title={`${entry.data.title} — Navneet Lal Gupta`}
+  description={entry.data.blurb}
+  shareTitle={entry.data.title}
+  headings={headings}
+>
+  <Fragment slot="header">
+    <WorkHeader
+      title={entry.data.title}
+      blurb={entry.data.blurb}
+      company={entry.data.company}
+      role={entry.data.role}
+      period={entry.data.period}
+      stack={entry.data.stack}
+      metrics={entry.data.metrics}
+      coverColor={entry.data.coverColor}
+      coverEyebrow={entry.data.coverEyebrow}
+    />
+  </Fragment>
+
+  <PostBody>
+    <Content />
+  </PostBody>
+
+  <Fragment slot="footer">
+    <AuthorBio />
+  </Fragment>
+</PostLayout>

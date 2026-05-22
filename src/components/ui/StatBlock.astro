@@ -1,0 +1,20 @@
+---
+export interface Props {
+  value: string;
+  label: string;
+  tone?: 'dark' | 'light';
+  class?: string;
+}
+
+const { value, label, tone = 'dark', class: extra = '' } = Astro.props;
+
+const valueClass = tone === 'light' ? 'text-paper' : 'text-ink-900';
+const labelClass = tone === 'light' ? 'text-ink-300' : 'text-ink-500';
+---
+
+<div class:list={['flex flex-col gap-1', extra]}>
+  <span class:list={['font-mono text-[28px] font-bold leading-none', valueClass]}>
+    {value}
+  </span>
+  <span class:list={['text-[11px]', labelClass]}>{label}</span>
+</div>

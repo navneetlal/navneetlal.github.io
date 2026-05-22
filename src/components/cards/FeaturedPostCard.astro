@@ -1,0 +1,85 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Pill from '../ui/Pill.astro';
+import Tag from '../ui/Tag.astro';
+
+export interface Props {
+  entry: CollectionEntry<'writing'>;
+}
+
+const { entry } = Astro.props;
+const { data, id } = entry;
+const href = `/writing/${id}/`;
+const dateStr = data.publishedAt.toISOString().slice(0, 10);
+---
+
+<article
+  class="overflow-hidden rounded-xl border border-ink-100 bg-paper transition-shadow hover:shadow-md"
+>
+  <div class="grid md:grid-cols-[440px_1fr]">
+    <a
+      href={href}
+      class="flex h-[220px] flex-col justify-between p-6 text-paper md:h-auto"
+      style={`background-color: ${data.coverColor ?? '#0f172a'};`}
+    >
+      {
+        data.coverEyebrow && (
+          <span class="font-mono text-[10px] text-paper/70">{data.coverEyebrow}</span>
+        )
+      }
+      <div class="mt-auto">
+        {data.coverTitle && (
+          <p class="text-lg font-bold text-paper">{data.coverTitle}</p>
+        )}
+        {
+          data.coverSubtitle && (
+            <p class="mt-1 font-mono text-[11px] text-paper/75">
+              {data.coverSubtitle}
+            </p>
+          )
+        }
+      </div>
+    </a>
+
+    <div class="flex flex-col p-6 md:p-8">
+      <div class="flex items-center gap-3">
+        <Pill tone="warn">FEATURED</Pill>
+        <span class="font-mono text-[11px] text-ink-500">
+          {dateStr} · {data.readingMinutes} min · {data.category.toUpperCase()}
+        </span>
+      </div>
+
+      <h2 class="mt-5 text-[26px] font-bold leading-tight text-ink-900 md:text-[28px]">
+        <a href={href} class="hover:text-ink-700">{data.title}</a>
+      </h2>
+
+      {
+        data.description && (
+          <p class="mt-4 max-w-2xl text-sm text-ink-700 md:text-base">
+            {data.description}
+          </p>
+        )
+      }
+
+      <div class="mt-auto flex flex-wrap items-center justify-between gap-4 pt-6">
+        {
+          data.tags.length > 0 && (
+            <ul class="flex flex-wrap gap-2">
+              {data.tags.slice(0, 4).map((t) => (
+                <li>
+                  <Tag href={`/writing/tag/${t.toLowerCase()}/`}>{t}</Tag>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+        <a
+          href={href}
+          class="inline-flex items-center gap-1 text-sm font-semibold text-ink-900 hover:text-ink-700"
+        >
+          Read post <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</article>

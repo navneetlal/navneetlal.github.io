@@ -1,0 +1,86 @@
+---
+import Tag from '../ui/Tag.astro';
+import StatBlock from '../ui/StatBlock.astro';
+
+export interface Props {
+  title: string;
+  blurb: string;
+  company: string;
+  role: string;
+  period: string;
+  stack: string[];
+  metrics?: { label: string; value: string }[];
+  coverColor: string;
+  coverEyebrow?: string;
+}
+
+const {
+  title,
+  blurb,
+  company,
+  role,
+  period,
+  stack,
+  metrics = [],
+  coverColor,
+  coverEyebrow,
+} = Astro.props;
+---
+
+<header class="mx-auto max-w-[760px]">
+  <a
+    href="/work/"
+    class="inline-flex items-center gap-1 font-mono text-xs text-ink-500 hover:text-ink-900"
+  >
+    ← /work
+  </a>
+
+  <p class="mt-8 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-500">
+    {company} · {period} · {role}
+  </p>
+
+  <h1 class="mt-4 text-3xl font-bold leading-[1.1] tracking-tight text-ink-900 md:text-[44px]">
+    {title}
+  </h1>
+
+  <p class="mt-5 text-base italic text-ink-500 md:text-lg">{blurb}</p>
+
+  <div
+    class="mt-10 flex h-[220px] flex-col justify-between rounded-xl p-6 text-paper"
+    style={`background-color: ${coverColor};`}
+  >
+    {
+      coverEyebrow && (
+        <p class="font-mono text-[11px] text-paper/70">{coverEyebrow}</p>
+      )
+    }
+    <div>
+      <p class="text-xl font-bold leading-tight md:text-2xl">{title}</p>
+      <p class="mt-2 font-mono text-xs text-paper/75">{blurb}</p>
+    </div>
+  </div>
+
+  {
+    metrics.length > 0 && (
+      <ul class="mt-8 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-3">
+        {metrics.map((m) => (
+          <li>
+            <StatBlock value={m.value} label={m.label} />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    stack.length > 0 && (
+      <ul class="mt-8 flex flex-wrap gap-2">
+        {stack.map((s) => (
+          <li>
+            <Tag>{s}</Tag>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</header>

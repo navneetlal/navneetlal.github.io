@@ -1,0 +1,68 @@
+---
+import Container from '../layout/Container.astro';
+import Pill from '../ui/Pill.astro';
+import StatBlock from '../ui/StatBlock.astro';
+import ArchDiagram from './ArchDiagram.astro';
+
+const stats = [
+  { value: '7+', label: 'years engineering' },
+  { value: '45', label: 'services migrated to EKS' },
+  { value: '100+', label: 'CVEs closed in upgrades' },
+  { value: '80M', label: 'events/day ingested' },
+  { value: '−30%', label: 'infra cost' },
+];
+---
+
+<section class="bg-paper">
+  <Container class="grid items-start gap-12 py-16 md:grid-cols-[1fr_400px] md:gap-16 md:py-24">
+    <div>
+      <Pill tone="green">
+        <span class="size-2 rounded-full bg-accent-green"></span>
+        Open to staff / principal roles
+      </Pill>
+
+      <h1 class="mt-8 text-4xl font-bold leading-[1.05] tracking-tight text-ink-900 md:text-[56px]">
+        Navneet Lal Gupta
+      </h1>
+
+      <p class="mt-5 max-w-[34ch] text-2xl font-medium leading-tight text-ink-700 md:text-[32px]">
+        Backend tech lead — distributed systems &amp; platform modernizations.
+      </p>
+
+      <p class="mt-7 max-w-2xl text-sm italic text-ink-500 md:text-base">
+        "7+ yrs building distributed backend systems from scratch and leading
+        large-scale platform modernizations across runtimes, container
+        platforms, and CI/CD."
+      </p>
+
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a
+          href="/work/"
+          class="inline-flex items-center gap-2 rounded-lg bg-ink-900 px-5 py-3 text-sm font-medium text-paper transition-colors hover:bg-ink-700"
+        >
+          View my work <span aria-hidden="true">→</span>
+        </a>
+        <a
+          href="/writing/"
+          class="inline-flex items-center gap-2 rounded-lg border-[1.5px] border-ink-900 bg-paper px-5 py-3 text-sm font-medium text-ink-900 transition-colors hover:bg-paper-soft"
+        >
+          Read writing
+        </a>
+      </div>
+
+      <ul class="mt-12 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3 md:grid-cols-5">
+        {
+          stats.map((s) => (
+            <li>
+              <StatBlock value={s.value} label={s.label} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="hidden md:block">
+      <ArchDiagram />
+    </div>
+  </Container>
+</section>

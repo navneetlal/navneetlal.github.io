@@ -1,0 +1,37 @@
+---
+title: "Real-time analytics platform"
+blurb: "Debezium CDC → Kafka → StarRocks + Spark/Iceberg lakehouse"
+role: "Sole engineer"
+company: "Multi-tenant SaaS platform"
+period: "2024–present"
+order: 2
+stack: ["Debezium", "Kafka", "StarRocks", "Spark", "Iceberg", "Airflow"]
+metrics:
+  - { label: "Lakehouse", value: "10–15 TB" }
+  - { label: "Dashboards", value: "ms-latency" }
+  - { label: "Tiers", value: "bronze/silver/gold" }
+coverColor: "#0f172a"
+---
+
+The company's first analytics platform — built end-to-end from CDC source
+through to customer-facing dashboards and an ML/historical lakehouse.
+
+## Problem
+
+Analytics ran on the multi-tenant Mongo cluster, queueing behind transactional
+write load with ~50 collections per tenant. Dashboards were minutes-stale; ad-hoc
+analytical queries were not viable at all.
+
+## Approach
+
+- **CDC stream:** Debezium tails Mongo oplogs into Kafka, one topic per source
+  collection per tenant.
+- **Hot path:** Kafka → StarRocks for sub-second customer dashboards.
+- **Cold path:** Kafka → Spark Structured Streaming → Iceberg lakehouse with
+  bronze/silver/gold tiers, orchestrated by Airflow.
+
+## Outcome
+
+10–15 TB of historical analytics data off the OLTP store, ms-latency on the
+live dashboards, and a lakehouse footprint that ML/data-science consume
+without touching the multi-tenant Mongo.

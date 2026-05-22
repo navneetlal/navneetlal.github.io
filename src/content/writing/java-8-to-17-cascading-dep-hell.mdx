@@ -1,0 +1,18 @@
+---
+title: "Cascading dep hell: Java 8 → 17 across 35 services"
+description: "End-of-support runtimes don't just block CVE fixes — they block every transitive update that depends on them. A field report from a 35-service upgrade."
+publishedAt: 2026-04-10
+category: "Migrations"
+tags: ["Java", "Migrations", "Dependencies"]
+readingMinutes: 6
+coverColor: "#0f172a"
+coverEyebrow: "// notes"
+coverTitle: "Java 8 → 17"
+coverSubtitle: "35 services · 100+ CVEs closed"
+---
+
+> Stub. Full post body to follow.
+
+The runtime upgrade itself was the easy part. The hard part was every transitive
+dependency that hadn't shipped a Java-17-compatible release while the org was
+sitting on Java 8 — and the cascading chain of updates that triggered.

@@ -1,0 +1,61 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import EyebrowLabel from '../ui/EyebrowLabel.astro';
+import PostCard from '../cards/PostCard.astro';
+
+export interface Props {
+  current: CollectionEntry<'writing'>;
+  pool: CollectionEntry<'writing'>[];
+  limit?: number;
+}
+
+const { current, pool, limit = 2 } = Astro.props;
+
+const currentTags = new Set([
+  current.data.category,
+  ...current.data.tags,
+]);
+
+const scored = pool
+  .filter((p) => p.id !== current.id && !p.data.draft)
+  .map((p) => {
+    const overlap = [p.data.category, ...p.data.tags].filter((t) =>
+      currentTags.has(t),
+    ).length;
+    return { entry: p, overlap };
+  })
+  .filter((s) => s.overlap > 0)
+  .sort(
+    (a, b) =>
+      b.overlap - a.overlap ||
+      b.entry.data.publishedAt.getTime() - a.entry.data.publishedAt.getTime(),
+  )
+  .slice(0, limit)
+  .map((s) => s.entry);
+
+const related =
+  scored.length > 0
+    ? scored
+    : pool
+        .filter((p) => p.id !== current.id && !p.data.draft)
+        .sort(
+          (a, b) =>
+            b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+        )
+        .slice(0, limit);
+---
+
+{
+  related.length > 0 && (
+    <section aria-label="Related posts">
+      <EyebrowLabel label="RELATED" tone="muted" />
+      <ul class="mt-6 grid gap-6 md:grid-cols-2">
+        {related.map((entry) => (
+          <li>
+            <PostCard entry={entry} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

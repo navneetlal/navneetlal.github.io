@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+import EyebrowLabel from '../components/ui/EyebrowLabel.astro';
+---
+
+<BaseLayout
+  title="About — Navneet Lal Gupta"
+  description="Backend tech lead — 7+ years building distributed data infra and leading platform-wide migrations."
+>
+  <Container class="py-16 md:py-20">
+    <div class="mx-auto max-w-2xl">
+      <EyebrowLabel label="ABOUT" />
+      <h1 class="mt-4 text-4xl font-bold tracking-tight text-ink-900 md:text-5xl">
+        About this site
+      </h1>
+
+      <div class="mt-10 space-y-6 text-base text-ink-700">
+        <p>
+          I'm Navneet Lal Gupta — a backend tech lead in Bangalore. 7+ years
+          building distributed backend systems from scratch and leading
+          large-scale platform modernizations: real-time data infrastructure,
+          and migrations of 40+ services across runtimes, container platforms,
+          and CI/CD.
+        </p>
+        <p>
+          The case studies on <a class="font-semibold text-ink-900 underline underline-offset-4" href="/work/">/work</a>
+          go deeper on individual projects. The posts on
+          <a class="font-semibold text-ink-900 underline underline-offset-4" href="/writing/">/writing</a>
+          are field notes — written after the dust settles, not while it's
+          still airborne.
+        </p>
+        <p class="rounded-lg border border-warn-border bg-warn-bg p-4 text-sm text-warn-text">
+          A longer about page is coming. In the meantime, the résumé
+          (<a class="font-semibold underline underline-offset-4" href="/resume.pdf">PDF</a>)
+          has the chronological version.
+        </p>
+      </div>
+    </div>
+  </Container>
+</BaseLayout>

@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 2400" font-family="-apple-system, system-ui, sans-serif">
+  <rect width="1280" height="2400" fill="#ffffff"/>
+
+  <!-- Top Nav -->
+  <rect x="0" y="0" width="1280" height="72" fill="#ffffff" stroke="#e4e4e7" stroke-width="1"/>
+  <text x="80" y="44" fill="#0f172a" font-size="15" font-weight="700" font-family="ui-monospace, SFMono-Regular, monospace">~/navneet</text>
+  <g font-size="13" fill="#374151">
+    <text x="880" y="44">Work</text>
+    <text x="940" y="44" font-weight="700" fill="#0f172a">Writing</text>
+    <line x1="938" y1="50" x2="982" y2="50" stroke="#0f172a" stroke-width="2"/>
+    <text x="1010" y="44">About</text>
+    <text x="1065" y="44">Contact</text>
+  </g>
+  <rect x="1135" y="22" width="65" height="30" rx="6" fill="#0f172a"/>
+  <text x="1145" y="42" font-size="12" fill="#ffffff">Resume</text>
+
+  <!-- Breadcrumb -->
+  <text x="80" y="120" font-size="12" fill="#64748b" font-family="ui-monospace, SFMono-Regular, monospace">← /writing/migrations</text>
+
+  <!-- Title block -->
+  <g>
+    <rect x="320" y="160" width="110" height="24" rx="12" fill="#eef2ff"/>
+    <text x="335" y="177" font-size="11" fill="#4338ca" font-family="ui-monospace, SFMono-Regular, monospace">MIGRATIONS</text>
+    <text x="320" y="248" font-size="44" font-weight="700" fill="#0f172a">Migrating 45 services from</text>
+    <text x="320" y="296" font-size="44" font-weight="700" fill="#0f172a">EC2/systemd to EKS — and</text>
+    <text x="320" y="344" font-size="44" font-weight="700" fill="#0f172a">cutting deploys 4.5×</text>
+    <rect x="320" y="378" width="640" height="14" rx="2" fill="#e5e7eb"/>
+    <rect x="320" y="402" width="560" height="14" rx="2" fill="#e5e7eb"/>
+    <text x="320" y="448" font-size="14" fill="#64748b" font-style="italic">A field report from leading a platform migration of 45 services and 250+ instances at a multi-tenant SaaS company.</text>
+
+    <!-- Author meta row -->
+    <circle cx="340" cy="500" r="20" fill="#e5e7eb"/>
+    <text x="370" y="496" font-size="13" font-weight="700" fill="#0f172a">Navneet Lal Gupta</text>
+    <text x="370" y="514" font-size="11" fill="#64748b" font-family="ui-monospace, SFMono-Regular, monospace">2026-05-14 · 9 min read · Updated 2026-05-16</text>
+    <g font-size="11" fill="#374151">
+      <rect x="780" y="485" width="34" height="30" rx="6" fill="#f3f4f6"/>
+      <text x="790" y="504">𝕏</text>
+      <rect x="820" y="485" width="34" height="30" rx="6" fill="#f3f4f6"/>
+      <text x="830" y="504">in</text>
+      <rect x="860" y="485" width="34" height="30" rx="6" fill="#f3f4f6"/>
+      <text x="870" y="504">⧉</text>
+    </g>
+  </g>
+
+  <!-- Cover: before/after architecture -->
+  <rect x="320" y="550" width="640" height="320" rx="12" fill="#0f172a"/>
+  <text x="340" y="582" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#94a3b8">// fig 1. before → after</text>
+
+  <text x="380" y="620" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#fca5a5">BEFORE</text>
+  <rect x="340" y="640" width="120" height="50" rx="8" fill="#1e293b" stroke="#475569"/>
+  <text x="362" y="662" font-size="11" fill="#e2e8f0">EC2 instance</text>
+  <text x="362" y="678" font-size="10" fill="#94a3b8">systemd · 90min deploy</text>
+
+  <text x="500" y="670" font-size="14" fill="#ffffff">→</text>
+
+  <text x="600" y="620" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#86efac">AFTER</text>
+  <rect x="560" y="640" width="380" height="200" rx="8" fill="#1e293b" stroke="#475569"/>
+  <text x="580" y="664" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#94a3b8">EKS cluster</text>
+  <rect x="580" y="678" width="80" height="36" rx="4" fill="#0f172a" stroke="#10b981"/>
+  <text x="599" y="700" font-size="10" fill="#a7f3d0">svc-a</text>
+  <rect x="668" y="678" width="80" height="36" rx="4" fill="#0f172a" stroke="#10b981"/>
+  <text x="687" y="700" font-size="10" fill="#a7f3d0">svc-b</text>
+  <rect x="756" y="678" width="80" height="36" rx="4" fill="#0f172a" stroke="#10b981"/>
+  <text x="773" y="700" font-size="10" fill="#a7f3d0">svc-c</text>
+  <rect x="844" y="678" width="76" height="36" rx="4" fill="#0f172a" stroke="#10b981"/>
+  <text x="857" y="700" font-size="10" fill="#a7f3d0">…×45</text>
+  <text x="580" y="744" font-size="10" fill="#94a3b8">▸ autoscaling on</text>
+  <text x="580" y="762" font-size="10" fill="#94a3b8">▸ 20min deploys (4.5× faster)</text>
+  <text x="580" y="780" font-size="10" fill="#94a3b8">▸ infra cost −30%</text>
+  <text x="580" y="798" font-size="10" fill="#94a3b8">▸ SRE-authored rollout runbooks</text>
+
+  <!-- TOC (sticky left) -->
+  <g>
+    <text x="80" y="930" font-size="11" font-weight="700" fill="#94a3b8" letter-spacing="2" font-family="ui-monospace, SFMono-Regular, monospace">// ON THIS PAGE</text>
+    <line x1="80" y1="948" x2="220" y2="948" stroke="#0f172a" stroke-width="2"/>
+    <text x="80" y="974" font-size="12" fill="#0f172a" font-weight="700">Why we left EC2</text>
+    <line x1="80" y1="996" x2="220" y2="996" stroke="#e5e7eb"/>
+    <text x="80" y="1020" font-size="12" fill="#64748b">Picking EKS over ECS</text>
+    <line x1="80" y1="1042" x2="220" y2="1042" stroke="#e5e7eb"/>
+    <text x="80" y="1066" font-size="12" fill="#64748b">Service inventory &amp; pilot</text>
+    <line x1="80" y1="1088" x2="220" y2="1088" stroke="#e5e7eb"/>
+    <text x="80" y="1112" font-size="12" fill="#64748b">The 4.5× deploy speedup</text>
+    <line x1="80" y1="1134" x2="220" y2="1134" stroke="#e5e7eb"/>
+    <text x="80" y="1158" font-size="12" fill="#64748b">Autoscaling, finally</text>
+    <line x1="80" y1="1180" x2="220" y2="1180" stroke="#e5e7eb"/>
+    <text x="80" y="1204" font-size="12" fill="#64748b">What I'd do differently</text>
+  </g>
+
+  <!-- Body content -->
+  <g>
+    <text x="320" y="940" font-size="26" font-weight="700" fill="#0f172a">Why we left EC2</text>
+    <rect x="320" y="970" width="640" height="12" rx="2" fill="#e5e7eb"/>
+    <rect x="320" y="990" width="600" height="12" rx="2" fill="#e5e7eb"/>
+    <rect x="320" y="1010" width="580" height="12" rx="2" fill="#e5e7eb"/>
+    <rect x="320" y="1030" width="540" height="12" rx="2" fill="#e5e7eb"/>
+    <rect x="320" y="1070" width="640" height="12" rx="2" fill="#e5e7eb"/>
+    <rect x="320" y="1090" width="620" height="12" rx="2" fill="#e5e7eb"/>
+    <rect x="320" y="1110" width="500" height="12" rx="2" fill="#e5e7eb"/>
+
+    <!-- Pull quote -->
+    <line x1="320" y1="1170" x2="320" y2="1270" stroke="#10b981" stroke-width="3"/>
+    <text x="340" y="1200" font-size="20" font-style="italic" fill="#0f172a">"45 services. 250 instances. Every</text>
+    <text x="340" y="1228" font-size="20" font-style="italic" fill="#0f172a">deploy took 90 minutes. Something</text>
+    <text x="340" y="1256" font-size="20" font-style="italic" fill="#0f172a">had to give."</text>
+
+    <text x="320" y="1330" font-size="26" font-weight="700" fill="#0f172a">Picking EKS over ECS</text>
+    <rect x="320" y="1360" width="640" height="12" rx="2" fill="#e5e7eb"/>
+    <rect x="320" y="1380" width="600" height="12" rx="2" fill="#e5e7eb"/>
+    <rect x="320" y="1400" width="580" height="12" rx="2" fill="#e5e7eb"/>
+
+    <!-- Code block -->
+    <rect x="320" y="1440" width="640" height="180" rx="8" fill="#0f172a"/>
+    <text x="340" y="1468" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#94a3b8"># sample deployment manifest</text>
+    <text x="340" y="1492" font-size="12" font-family="ui-monospace, SFMono-Regular, monospace" fill="#a7f3d0">apiVersion: apps/v1</text>
+    <text x="340" y="1514" font-size="12" font-family="ui-monospace, SFMono-Regular, monospace" fill="#a7f3d0">kind: Deployment</text>
+    <text x="340" y="1536" font-size="12" font-family="ui-monospace, SFMono-Regular, monospace" fill="#e2e8f0">metadata:</text>
+    <text x="358" y="1558" font-size="12" font-family="ui-monospace, SFMono-Regular, monospace" fill="#e2e8f0">name: ingest-svc</text>
+    <text x="340" y="1580" font-size="12" font-family="ui-monospace, SFMono-Regular, monospace" fill="#e2e8f0">spec:</text>
+    <text x="358" y="1602" font-size="12" font-family="ui-monospace, SFMono-Regular, monospace" fill="#e2e8f0">replicas: 3</text>
+
+    <!-- Callout -->
+    <rect x="320" y="1660" width="640" height="100" rx="8" fill="#fefce8" stroke="#fde047"/>
+    <text x="340" y="1690" font-size="13" font-weight="700" fill="#854d0e">⚠ Heads-up</text>
+    <text x="340" y="1714" font-size="13" fill="#854d0e">Pilot with a low-traffic service first. The first cutover teaches you 80% of the gotchas</text>
+    <text x="340" y="1734" font-size="13" fill="#854d0e">in your stack, and you want to learn them when the blast radius is small.</text>
+
+    <text x="320" y="1820" font-size="26" font-weight="700" fill="#0f172a">The 4.5× deploy speedup</text>
+    <rect x="320" y="1850" width="640" height="12" rx="2" fill="#e5e7eb"/>
+    <rect x="320" y="1870" width="600" height="12" rx="2" fill="#e5e7eb"/>
+
+    <!-- Inline figure -->
+    <rect x="320" y="1910" width="640" height="200" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+    <text x="340" y="1940" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#64748b">// fig 2. deploy time, before vs after</text>
+    <rect x="380" y="1990" width="80" height="100" fill="#fca5a5"/>
+    <text x="400" y="2108" font-size="11" fill="#64748b">EC2 · 90m</text>
+    <rect x="520" y="2030" width="80" height="60" fill="#a7f3d0"/>
+    <text x="540" y="2108" font-size="11" fill="#64748b">EKS · 20m</text>
+    <text x="700" y="2030" font-size="13" font-weight="700" fill="#0f172a">↓ 4.5×</text>
+    <text x="700" y="2052" font-size="11" fill="#64748b">deploy time</text>
+    <text x="700" y="2080" font-size="13" font-weight="700" fill="#0f172a">↓ 30%</text>
+    <text x="700" y="2102" font-size="11" fill="#64748b">infra cost</text>
+  </g>
+
+  <!-- Right aside: share / newsletter -->
+  <g>
+    <rect x="1000" y="910" width="200" height="120" rx="10" fill="#f9fafb" stroke="#e5e7eb"/>
+    <text x="1020" y="940" font-size="11" font-weight="700" fill="#94a3b8" letter-spacing="2" font-family="ui-monospace, SFMono-Regular, monospace">// SHARE</text>
+    <g font-size="11" fill="#374151">
+      <rect x="1020" y="956" width="50" height="32" rx="6" fill="#ffffff" stroke="#d1d5db"/>
+      <text x="1036" y="976">𝕏</text>
+      <rect x="1078" y="956" width="50" height="32" rx="6" fill="#ffffff" stroke="#d1d5db"/>
+      <text x="1094" y="976">in</text>
+      <rect x="1020" y="994" width="108" height="32" rx="6" fill="#ffffff" stroke="#d1d5db"/>
+      <text x="1042" y="1014">Copy link</text>
+    </g>
+
+    <rect x="1000" y="1050" width="200" height="200" rx="10" fill="#0f172a"/>
+    <text x="1020" y="1080" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#94a3b8">// subscribe</text>
+    <text x="1020" y="1106" font-size="14" font-weight="700" fill="#ffffff">New posts in</text>
+    <text x="1020" y="1124" font-size="14" font-weight="700" fill="#ffffff">your inbox</text>
+    <text x="1020" y="1150" font-size="11" fill="#94a3b8">~1 a month. No spam.</text>
+    <rect x="1020" y="1170" width="160" height="32" rx="6" fill="#ffffff"/>
+    <text x="1030" y="1191" font-size="11" fill="#9ca3af">you@domain.com</text>
+    <rect x="1020" y="1208" width="160" height="34" rx="6" fill="#10b981"/>
+    <text x="1062" y="1230" font-size="12" fill="#ffffff" font-weight="700">Subscribe</text>
+  </g>
+
+  <!-- Author bio block -->
+  <rect x="80" y="2170" width="1120" height="140" rx="12" fill="#f9fafb" stroke="#e5e7eb"/>
+  <circle cx="140" cy="2240" r="32" fill="#e5e7eb"/>
+  <text x="190" y="2210" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#94a3b8">// AUTHOR</text>
+  <text x="190" y="2238" font-size="16" font-weight="700" fill="#0f172a">Navneet Lal Gupta</text>
+  <text x="190" y="2260" font-size="12" fill="#475569">Backend tech lead in Bangalore. I build distributed systems and lead platform migrations.</text>
+  <text x="190" y="2280" font-size="12" fill="#64748b">Currently writing about data infra, Kubernetes, and how things actually break in production.</text>
+  <rect x="1050" y="2222" width="130" height="36" rx="6" fill="#0f172a"/>
+  <text x="1075" y="2245" font-size="12" fill="#ffffff">More posts →</text>
+
+  <!-- Related posts -->
+  <text x="80" y="2360" font-size="20" font-weight="700" fill="#0f172a">Related posts</text>
+  <text x="220" y="2360" font-size="12" fill="#64748b">— Mongo → StarRocks · CDC with Debezium · Java 8 → 17</text>
+</svg>

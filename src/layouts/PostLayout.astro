@@ -1,0 +1,55 @@
+---
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+import TableOfContents from '../components/post/TableOfContents.astro';
+import ShareCard from '../components/post/ShareCard.astro';
+import SubscribeCard from '../components/post/SubscribeCard.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  shareTitle: string;
+  ogImage?: string;
+  headings?: MarkdownHeading[];
+}
+
+const {
+  title,
+  description,
+  shareTitle,
+  ogImage,
+  headings = [],
+} = Astro.props;
+
+const shareUrl = Astro.url.toString();
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage}>
+  <Container as="article" class="py-12 md:py-16">
+    <div class="grid gap-10 lg:grid-cols-[200px_minmax(0,_640px)_200px] lg:gap-12 lg:justify-center">
+      <!-- Left: TOC -->
+      <aside class="order-2 lg:order-1 lg:sticky lg:top-24 lg:self-start">
+        <TableOfContents headings={headings} />
+      </aside>
+
+      <!-- Middle: content -->
+      <div class="order-1 min-w-0 lg:order-2">
+        <slot name="header" />
+        <slot name="cover" />
+        <div class="mt-12">
+          <slot />
+        </div>
+        <div class="mt-16 flex flex-col gap-10">
+          <slot name="footer" />
+        </div>
+      </div>
+
+      <!-- Right: share + subscribe -->
+      <aside class="order-3 flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
+        <ShareCard url={shareUrl} title={shareTitle} />
+        <SubscribeCard variant="dark-narrow" />
+      </aside>
+    </div>
+  </Container>
+</BaseLayout>

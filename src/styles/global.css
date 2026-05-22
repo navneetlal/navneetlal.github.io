@@ -1,0 +1,57 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Ink (text + dark surfaces) */
+  --color-ink-900: #0f172a;
+  --color-ink-700: #334155;
+  --color-ink-500: #64748b;
+  --color-ink-300: #cbd5e1;
+  --color-ink-100: #e5e7eb;
+
+  /* Paper (page surfaces) */
+  --color-paper: #ffffff;
+  --color-paper-soft: #fafaf9;
+  --color-paper-softer: #f8fafc;
+
+  /* Accent */
+  --color-accent-green: #10b981;
+  --color-accent-green-soft: #ecfdf5;
+  --color-accent-green-border: #a7f3d0;
+  --color-accent-green-ink: #065f46;
+  --color-accent-indigo: #4338ca;
+  --color-accent-indigo-bg: #eef2ff;
+
+  /* Warn */
+  --color-warn-bg: #fefce8;
+  --color-warn-border: #fde047;
+  --color-warn-text: #854d0e;
+
+  /* Typography */
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, monospace;
+
+  /* Site max-width matches brief §5 */
+  --container-page: 1280px;
+}
+
+/* Body defaults — Tailwind 4 resets keep this minimal */
+html {
+  font-family: var(--font-sans);
+  background-color: var(--color-paper-soft);
+  color: var(--color-ink-900);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--color-ink-900);
+  color: var(--color-paper);
+}

@@ -1,0 +1,41 @@
+---
+title: "Activity ingestion platform"
+blurb: "Kafka + Cassandra collector, Activity Streams 2.0 spec"
+role: "Sole engineer"
+company: "E-learning company"
+period: "2018–2020"
+order: 5
+stack: ["Kafka", "Cassandra", "Express.js", "Lambda", "DynamoDB", "ANTLR4"]
+metrics:
+  - { label: "Sources", value: "internal tools (VCS, quiz, LMS)" }
+  - { label: "Spec", value: "Activity Streams 2.0" }
+  - { label: "Pattern", value: "write-heavy multi-source" }
+coverColor: "#4338ca"
+---
+
+A unified activity ingestion platform on Kafka + Cassandra — a collector
+service normalizing event streams from internal tools into the Activity
+Streams 2.0 spec to power cross-tool analytics.
+
+## Problem
+
+Each internal tool (VCS, quiz apps, learning apps) emitted its own
+proprietary event shape. Cross-tool reporting required a hand-rolled
+extract-and-join per question; we had no canonical view of a learner's
+activity across the platform.
+
+## Approach
+
+- **Collector service** translates source-specific events into Activity
+  Streams 2.0 envelopes (actor / verb / object / target).
+- **Kafka** as the buffer; **Cassandra** as the durable store — picked for
+  write-heavy multi-source ingestion where reads are downstream and async.
+- **Express.js + Lambda + DynamoDB** API for the consumer-facing student
+  onboarding + assessment surface, including bulk provisioning 1000+
+  students into self-hosted VCS with mentor-review workflows and
+  ANTLR4-based code-quality grading.
+
+## Outcome
+
+Single canonical activity stream feeding cross-tool analytics. Bulk-provisioning
+collapsed onboarding from a per-student task to a single API call.

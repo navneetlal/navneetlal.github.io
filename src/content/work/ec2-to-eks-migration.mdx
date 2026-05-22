@@ -1,0 +1,33 @@
+---
+title: "EC2 → EKS migration at scale"
+blurb: "45 services · 250+ instances"
+role: "Lead"
+company: "Multi-tenant SaaS platform"
+period: "2024"
+order: 1
+stack: ["EKS", "Terraform", "Jenkins", "SRE"]
+metrics:
+  - { label: "Deploys", value: "90→20 min" }
+  - { label: "Infra cost", value: "−30%" }
+  - { label: "Services", value: "45" }
+coverColor: "#1e3a8a"
+---
+
+Moved 45 microservices off long-lived EC2/systemd hosts and onto EKS — across
+customer tenants and 250+ instances — without a maintenance window.
+
+## Problem
+
+Deploys ran for 90 minutes. Capacity was provisioned by hand; off-peak headroom
+sat idle 24/7. Restarting a single service required SRE pager-time.
+
+## Approach
+
+- Rebuilt service Docker images on a shared base, fronted by Helm charts.
+- Tenant-aware deployment pipelines on Jenkins, gated by smoke tests.
+- Authored runbooks SRE owned for the customer rollout.
+
+## Outcome
+
+Deploys 90 → 20 minutes. Infra cost −30% from autoscaling-driven right-sizing.
+First time the platform could scale horizontally on demand.

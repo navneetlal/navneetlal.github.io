@@ -1,0 +1,28 @@
+---
+import BaseHead from '../components/layout/BaseHead.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  hideFooter?: boolean;
+}
+
+const { title, description, ogImage, hideFooter = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} ogImage={ogImage} />
+  </head>
+  <body class="flex min-h-screen flex-col bg-paper-soft text-ink-900 antialiased">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    {!hideFooter && <Footer />}
+  </body>
+</html>

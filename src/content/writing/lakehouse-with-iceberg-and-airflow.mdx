@@ -1,0 +1,20 @@
+---
+title: "A lakehouse with Iceberg and Airflow — bronze, silver, gold"
+description: "Why the three-tier lakehouse pattern works for replacing OLAP-on-OLTP, and what each tier actually does in practice."
+publishedAt: 2026-02-18
+category: "Data Platforms"
+tags: ["Iceberg", "Spark", "Airflow", "Lakehouse"]
+readingMinutes: 10
+coverColor: "#1e3a8a"
+coverEyebrow: "// data platform"
+coverTitle: "Iceberg lakehouse"
+coverSubtitle: "bronze / silver / gold · 10–15 TB"
+---
+
+> Stub. Full post body to follow.
+
+The bronze-silver-gold tiering pattern is more than a naming convention — it's
+what lets a lakehouse serve both ML workloads and operational analytics from
+the same storage footprint without either workload stomping on the other.
+Bronze keeps the raw event shape, silver normalizes + dedupes, gold materializes
+business-facing facts.

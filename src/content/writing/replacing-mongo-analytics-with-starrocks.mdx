@@ -1,0 +1,18 @@
+---
+title: "Why we replaced analytics on Mongo with StarRocks"
+description: "What broke when analytical queries shared a tenant cluster with OLTP — and what moving to a real OLAP engine actually gave us."
+publishedAt: 2026-04-28
+category: "Data Platforms"
+tags: ["StarRocks", "Kafka", "Analytics"]
+readingMinutes: 7
+coverColor: "#1e3a8a"
+coverEyebrow: "// data platform"
+coverTitle: "Mongo → StarRocks"
+coverSubtitle: "ms-latency dashboards"
+---
+
+> Stub. Full post body to follow.
+
+Analytical queries on a multi-tenant Mongo cluster queue behind the transactional
+write load. We moved the analytical side onto StarRocks, fed from Kafka via
+Debezium CDC, and got ms-latency dashboards as a side effect.

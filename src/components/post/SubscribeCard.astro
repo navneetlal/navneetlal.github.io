@@ -1,0 +1,67 @@
+---
+export interface Props {
+  variant?: 'dark-wide' | 'dark-narrow' | 'light';
+  class?: string;
+}
+
+const { variant = 'dark-wide', class: extra = '' } = Astro.props;
+
+const isDark = variant !== 'light';
+const wrapClass = {
+  'dark-wide':
+    'rounded-2xl bg-ink-900 px-6 py-10 text-paper md:px-12 md:py-12',
+  'dark-narrow': 'rounded-xl bg-ink-900 p-6 text-paper',
+  light: 'rounded-xl border border-ink-100 bg-paper p-6 text-ink-900',
+}[variant];
+
+const eyebrowTone = isDark ? 'text-ink-300' : 'text-ink-500';
+const headlineTone = isDark ? 'text-paper' : 'text-ink-900';
+const subTone = isDark ? 'text-ink-300' : 'text-ink-500';
+const linkClass = isDark
+  ? 'border-ink-300 text-paper hover:bg-paper hover:text-ink-900'
+  : 'border-ink-900 text-ink-900 hover:bg-ink-900 hover:text-paper';
+
+const isWide = variant === 'dark-wide';
+---
+
+<aside class:list={[wrapClass, extra]} aria-label="Follow this blog">
+  <p class:list={['font-mono text-[11px] uppercase tracking-[0.18em]', eyebrowTone]}>
+    // FOLLOW
+  </p>
+  <h3
+    class:list={[
+      'mt-3 font-bold leading-tight',
+      isWide ? 'text-2xl md:text-3xl' : 'text-lg',
+      headlineTone,
+    ]}
+  >
+    {isWide
+      ? 'No newsletter. Just RSS.'
+      : 'Follow via RSS.'}
+  </h3>
+  <p class:list={['mt-2 text-sm', subTone]}>
+    {isWide
+      ? '~1 post a month on distributed systems, data platforms, and migrations — written after the dust settles. Drop the feed into your reader of choice.'
+      : 'Drop the feed into your reader.'}
+  </p>
+
+  <div class={isWide ? 'mt-6 flex flex-wrap items-center gap-3' : 'mt-5 flex flex-wrap items-center gap-3'}>
+    <a
+      href="/rss.xml"
+      class:list={[
+        'inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 font-mono text-xs font-semibold transition-colors',
+        linkClass,
+      ]}
+    >
+      <span aria-hidden="true">⌁</span>
+      Subscribe via RSS
+    </a>
+    {
+      isWide && (
+        <span class:list={['font-mono text-[11px]', subTone]}>
+          or open <a href="/rss.xml" class="underline underline-offset-4">/rss.xml</a> directly
+        </span>
+      )
+    }
+  </div>
+</aside>

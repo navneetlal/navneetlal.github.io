@@ -1,0 +1,26 @@
+---
+export interface Props {
+  tone?: 'green' | 'indigo' | 'warn' | 'neutral' | 'dark';
+  class?: string;
+}
+
+const { tone = 'green', class: extra = '' } = Astro.props;
+
+const toneClass = {
+  green: 'bg-accent-green-soft text-accent-green-ink border-accent-green-border',
+  indigo: 'bg-accent-indigo-bg text-accent-indigo border-transparent',
+  warn: 'bg-warn-bg text-warn-text border-warn-border',
+  neutral: 'bg-paper-softer text-ink-700 border-ink-100',
+  dark: 'bg-ink-900 text-paper border-transparent',
+}[tone];
+---
+
+<span
+  class:list={[
+    'inline-flex items-center gap-2 rounded-full border px-3 py-[3px] text-[11px] leading-none',
+    toneClass,
+    extra,
+  ]}
+>
+  <slot />
+</span>

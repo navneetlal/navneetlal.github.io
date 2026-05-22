@@ -1,0 +1,68 @@
+---
+import Container from './Container.astro';
+
+const year = new Date().getFullYear();
+
+const socials = [
+  { href: 'https://github.com/navneetlal', label: 'GitHub' },
+  { href: 'https://www.linkedin.com/in/navneetlalgupta', label: 'LinkedIn' },
+  { href: 'https://x.com/navneetlal', label: 'X / Twitter' },
+];
+
+const utility = [
+  { href: '/rss.xml', label: 'RSS' },
+  { href: '/resume.pdf', label: 'Resume (PDF)' },
+];
+---
+
+<footer id="contact" class="bg-ink-900 text-paper">
+  <Container class="py-16 md:py-20">
+    <div class="grid gap-10 md:grid-cols-[1fr_auto]">
+      <div>
+        <h2 class="text-[22px] font-bold leading-tight md:text-2xl">
+          Have a system that needs untangling?
+        </h2>
+        <p class="mt-3 max-w-xl text-[13px] text-ink-300">
+          Open to staff / principal IC and tech-lead roles. Best reached at the
+          address below.
+        </p>
+        <a
+          href="mailto:navneetlalg@gmail.com"
+          class="mt-6 inline-block font-mono text-sm font-semibold text-paper hover:text-accent-green"
+        >
+          navneetlalg@gmail.com
+        </a>
+        <p class="mt-2 text-xs text-ink-300">Bangalore, IN · UTC+5:30</p>
+      </div>
+
+      <div class="flex flex-col gap-2 text-xs text-ink-300 md:items-end">
+        <ul class="flex flex-wrap gap-4 md:justify-end">
+          {
+            socials.map((s) => (
+              <li>
+                <a href={s.href} class="hover:text-paper" rel="me noopener" target="_blank">
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <ul class="flex flex-wrap gap-4 md:justify-end">
+          {
+            utility.map((s) => (
+              <li>
+                <a href={s.href} class="hover:text-paper">
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <p class="mt-12 font-mono text-[11px] text-ink-500">
+      © {year} Navneet Lal Gupta · Built with Astro + MDX
+    </p>
+  </Container>
+</footer>

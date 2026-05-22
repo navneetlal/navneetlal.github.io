@@ -1,0 +1,68 @@
+---
+import { getCollection, render } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+import PostHeader from '../../components/post/PostHeader.astro';
+import PostBody from '../../components/post/PostBody.astro';
+import AuthorBio from '../../components/post/AuthorBio.astro';
+import RelatedPosts from '../../components/post/RelatedPosts.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  return posts.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const all = await getCollection('writing', ({ data }) => !data.draft);
+---
+
+<PostLayout
+  title={`${entry.data.title} — Navneet Lal Gupta`}
+  description={entry.data.description}
+  shareTitle={entry.data.title}
+  headings={headings}
+>
+  <Fragment slot="header">
+    <PostHeader
+      category={entry.data.category}
+      title={entry.data.title}
+      description={entry.data.description}
+      publishedAt={entry.data.publishedAt}
+      updatedAt={entry.data.updatedAt}
+      readingMinutes={entry.data.readingMinutes}
+    />
+  </Fragment>
+
+  {
+    entry.data.coverColor && (
+      <Fragment slot="cover">
+        <div
+          class="mt-10 flex h-[260px] flex-col justify-end overflow-hidden rounded-xl p-6 text-paper"
+          style={`background-color: ${entry.data.coverColor};`}
+        >
+          {entry.data.coverEyebrow && (
+            <p class="font-mono text-[11px] text-paper/70">{entry.data.coverEyebrow}</p>
+          )}
+          {entry.data.coverTitle && (
+            <p class="mt-2 text-2xl font-bold leading-tight">{entry.data.coverTitle}</p>
+          )}
+          {entry.data.coverSubtitle && (
+            <p class="mt-2 font-mono text-xs text-paper/70">{entry.data.coverSubtitle}</p>
+          )}
+        </div>
+      </Fragment>
+    )
+  }
+
+  <PostBody>
+    <Content />
+  </PostBody>
+
+  <Fragment slot="footer">
+    <AuthorBio />
+    <RelatedPosts current={entry} pool={all} />
+  </Fragment>
+</PostLayout>

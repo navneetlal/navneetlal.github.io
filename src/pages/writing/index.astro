@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import EyebrowLabel from '../../components/ui/EyebrowLabel.astro';
+import PostCard from '../../components/cards/PostCard.astro';
+import FeaturedPostCard from '../../components/cards/FeaturedPostCard.astro';
+import SubscribeCard from '../../components/post/SubscribeCard.astro';
+import { tagSlug } from '../../lib/tags.ts';
+
+const all = await getCollection('writing', ({ data }) => !data.draft);
+const sorted = all.sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+
+const featured = sorted.find((p) => p.data.featured);
+const rest = featured ? sorted.filter((p) => p.id !== featured.id) : sorted;
+
+const categories = ['Distributed Systems', 'Data Platforms', 'Migrations', 'Notes'];
+---
+
+<BaseLayout
+  title="Writing — Navneet Lal Gupta"
+  description="Field notes on distributed systems, data platforms, and large-scale migrations."
+>
+  <Container class="py-16 md:py-20">
+    <EyebrowLabel label="WRITING" />
+    <h1 class="mt-4 text-4xl font-bold tracking-tight text-ink-900 md:text-5xl">
+      Notes from the work
+    </h1>
+    <p class="mt-6 max-w-3xl text-base text-ink-700">
+      Field notes on distributed systems, data platforms, and large-scale
+      migrations — written after the dust settles.
+    </p>
+
+    <!-- Search + category chips -->
+    <div class="mt-10 flex flex-col gap-4 lg:flex-row lg:items-center">
+      <label class="block w-full max-w-md">
+        <span class="sr-only">Search posts</span>
+        <input
+          type="search"
+          placeholder="🔍  Search posts…"
+          disabled
+          aria-disabled="true"
+          title="Search is coming soon"
+          class="w-full cursor-not-allowed rounded-lg border border-ink-100 bg-paper px-4 py-3 text-sm text-ink-500 placeholder:text-ink-500 focus:outline-none"
+        />
+      </label>
+
+      <ul class="flex flex-wrap gap-2">
+        <li>
+          <a
+            href="/writing/"
+            class="inline-flex rounded-full bg-ink-900 px-4 py-1.5 font-mono text-xs text-paper"
+          >
+            All
+          </a>
+        </li>
+        {
+          categories.map((c) => (
+            <li>
+              <a
+                href={`/writing/tag/${tagSlug(c)}/`}
+                class="inline-flex rounded-full border border-ink-100 bg-paper px-4 py-1.5 font-mono text-xs text-ink-700 transition-colors hover:border-ink-900 hover:text-ink-900"
+              >
+                {c}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    {
+      featured && (
+        <div class="mt-10">
+          <FeaturedPostCard entry={featured} />
+        </div>
+      )
+    }
+
+    <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        rest.map((entry) => (
+          <li>
+            <PostCard entry={entry} variant="covered" />
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-16">
+      <SubscribeCard variant="dark-wide" />
+    </div>
+  </Container>
+</BaseLayout>

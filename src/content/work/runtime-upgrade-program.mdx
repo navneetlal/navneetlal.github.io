@@ -1,0 +1,39 @@
+---
+title: "Runtime upgrade program"
+blurb: "Java 8→17 across 35 services + Node 8→18 across 8 services"
+role: "Lead (2 engineers on Java track, solo on Node track)"
+company: "Multi-tenant SaaS platform"
+period: "2024"
+order: 4
+stack: ["Java 17", "Node.js 18", "Maven", "npm"]
+metrics:
+  - { label: "CVEs closed", value: "100+" }
+  - { label: "Services", value: "43" }
+  - { label: "Deps refresh", value: "full transitive" }
+coverColor: "#064e3b"
+---
+
+End-of-support runtime upgrades across 43 services — Java 8→17 (35 services,
+with two engineers) and Node.js 8→18 (8 services, solo).
+
+## Problem
+
+EOL runtimes meant 100+ open CVEs the platform couldn't patch. Worse, every
+transitive dependency that needed a security fix had moved to a release line
+that no longer supported the old runtime. The vulnerabilities and the
+upgrades were one problem, not two.
+
+## Approach
+
+- **Per-service upgrade playbook** authored once, applied 35 times: dependency
+  audit, jump-and-pin, integration smoke, prod canary.
+- **Cascading dependency resolution** — track upstream majors, fork
+  ourselves out of the dead-end versions, retest.
+- **Coordinated rollout** with SRE so a service-by-service flip never created
+  a runtime-mix that downstream consumers couldn't tolerate.
+
+## Outcome
+
+100+ CVEs closed across the platform. Every service is back on a runtime that
+still ships security fixes. The dependency-graph refresh paid for itself in
+the next quarter's audit.

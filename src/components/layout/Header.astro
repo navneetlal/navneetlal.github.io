@@ -1,0 +1,61 @@
+---
+import Container from './Container.astro';
+
+const pathname = Astro.url.pathname;
+
+const navItems = [
+  { href: '/work', label: 'Work', match: (p: string) => p.startsWith('/work') },
+  { href: '/writing', label: 'Writing', match: (p: string) => p.startsWith('/writing') },
+  { href: '/about', label: 'About', match: (p: string) => p.startsWith('/about') },
+  { href: '/#contact', label: 'Contact', match: () => false },
+];
+---
+
+<header
+  class="sticky top-0 z-40 w-full border-b border-ink-100 bg-paper/80 backdrop-blur supports-[backdrop-filter]:bg-paper/70"
+>
+  <Container as="nav" class="flex h-[72px] items-center justify-between">
+    <a
+      href="/"
+      class="font-mono text-[15px] font-bold tracking-tight text-ink-900 hover:opacity-70"
+    >
+      ~/navneet
+    </a>
+
+    <ul class="hidden items-center gap-8 text-[13px] text-ink-700 md:flex">
+      {
+        navItems.map((item) => {
+          const active = item.match(pathname);
+          return (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  'transition-colors hover:text-ink-900',
+                  active && 'font-bold text-ink-900 underline underline-offset-[10px] decoration-2',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })
+      }
+      <li>
+        <a
+          href="/resume.pdf"
+          class="rounded-md bg-ink-900 px-3 py-[7px] text-xs text-paper hover:bg-ink-700"
+        >
+          Resume
+        </a>
+      </li>
+    </ul>
+
+    <a
+      href="/resume.pdf"
+      class="rounded-md bg-ink-900 px-3 py-[7px] text-xs text-paper md:hidden"
+    >
+      Resume
+    </a>
+  </Container>
+</header>

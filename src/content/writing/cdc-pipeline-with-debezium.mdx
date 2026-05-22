@@ -1,0 +1,21 @@
+---
+title: "Building a CDC pipeline with Debezium — without breaking the source"
+description: "Lessons from tailing a multi-tenant Mongo oplog into Kafka without putting the source database under more load than it already had."
+publishedAt: 2026-03-20
+category: "Distributed Systems"
+tags: ["Debezium", "Kafka", "Mongo", "CDC"]
+readingMinutes: 11
+coverColor: "#0f172a"
+coverEyebrow: "// distributed systems"
+coverTitle: "Mongo → Kafka via Debezium"
+coverSubtitle: "oplog CDC at multi-tenant scale"
+---
+
+> Stub. Full post body to follow.
+
+The shape of the problem: a multi-tenant Mongo cluster already running at ~70%
+of its IOPS budget, and a downstream analytics pipeline that needs every change
+in near-real-time. The naïve thing — polling collections on a timer — pushes
+load somewhere that has none to spare. Debezium's oplog tailing approach is
+read-only from Mongo's perspective and, done right, costs the source almost
+nothing.

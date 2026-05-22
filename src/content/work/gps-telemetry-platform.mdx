@@ -1,0 +1,38 @@
+---
+title: "GPS telemetry platform"
+blurb: "Mid-mile tracking for quick-commerce"
+role: "Lead (5 eng — 3 backend, 2 frontend)"
+company: "Logistics startup"
+period: "2020–2024"
+order: 3
+stack: ["Node.js", "MongoDB", "Keycloak", "Jenkins", "EKS"]
+metrics:
+  - { label: "Vehicles", value: "8–10k" }
+  - { label: "Events/day", value: "40–80M" }
+  - { label: "Deploy freq", value: "1/wk → 2–3/day" }
+coverColor: "#7c2d12"
+---
+
+Mid-mile logistics tracking for enterprise quick-commerce customers — ingesting
+GPS telemetry from 8–10k vehicles across Indian metros.
+
+## Problem
+
+Customer-supplied fleet trackers ranged from polished APIs to flaky devices on
+2G. Pings arrived 10–30s apart depending on motion state. Cross-source
+normalization had to happen before any downstream system saw the data.
+
+## Approach
+
+- Built the org's first CI/CD pipeline (Jenkins, solo) and migrated 7–10
+  services to EKS — deploy freq 1/week → 2–3/day.
+- Integration layer over carrier APIs, customer-internal systems, and
+  third-party fleet/contract-management tools.
+- Cross-source GPS normalization + noise filtering as a first-class pipeline
+  stage.
+- Replaced custom auth with Keycloak as the customer-facing SSO layer.
+
+## Outcome
+
+Customer onboarding unlocked regardless of the customer's existing tracking
+stack. 40–80M events/day at peak.

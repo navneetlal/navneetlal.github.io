@@ -1,0 +1,29 @@
+---
+export interface Props {
+  /** The label after `// `. Will be uppercased and letter-spaced. */
+  label: string;
+  /** Override color (default: ink-900 on light, paper on dark) */
+  tone?: 'dark' | 'light' | 'muted';
+  as?: 'p' | 'span' | 'h2' | 'h3';
+  class?: string;
+}
+
+const { label, tone = 'dark', as: Tag = 'p', class: extra = '' } = Astro.props;
+
+const toneClasses: Record<NonNullable<Props['tone']>, string> = {
+  dark: 'text-ink-900',
+  light: 'text-paper',
+  muted: 'text-ink-500',
+};
+const toneClass = toneClasses[tone];
+---
+
+<Tag
+  class:list={[
+    'font-mono text-xs font-bold uppercase tracking-[0.18em]',
+    toneClass,
+    extra,
+  ]}
+>
+  // {label}
+</Tag>

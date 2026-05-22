@@ -1,0 +1,254 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 2150" font-family="-apple-system, system-ui, sans-serif">
+  <rect width="1280" height="2150" fill="#fafaf9"/>
+
+  <!-- ===== Top Nav ===== -->
+  <rect x="0" y="0" width="1280" height="72" fill="#ffffff" stroke="#e4e4e7" stroke-width="1"/>
+  <text x="80" y="44" fill="#0f172a" font-size="15" font-weight="700" font-family="ui-monospace, SFMono-Regular, monospace">~/navneet</text>
+  <g font-size="13" fill="#374151">
+    <text x="880" y="44">Work</text>
+    <text x="940" y="44">Writing</text>
+    <text x="1010" y="44">About</text>
+    <text x="1065" y="44">Contact</text>
+  </g>
+  <rect x="1135" y="22" width="65" height="30" rx="6" fill="#0f172a"/>
+  <text x="1145" y="42" font-size="12" fill="#ffffff">Resume</text>
+
+  <!-- ===== Hero ===== -->
+  <rect x="0" y="72" width="1280" height="600" fill="#ffffff"/>
+  <rect x="80" y="160" width="220" height="24" rx="12" fill="#ecfdf5" stroke="#a7f3d0"/>
+  <circle cx="96" cy="172" r="4" fill="#10b981"/>
+  <text x="108" y="176" font-size="11" fill="#065f46">Open to staff / principal roles</text>
+
+  <text x="80" y="270" font-size="56" font-weight="700" fill="#0f172a">Navneet Lal Gupta</text>
+  <text x="80" y="330" font-size="32" font-weight="500" fill="#334155">Backend tech lead — distributed</text>
+  <text x="80" y="372" font-size="32" font-weight="500" fill="#334155">systems &amp; platform modernizations.</text>
+
+  <rect x="80" y="410" width="680" height="12" rx="2" fill="#e5e7eb"/>
+  <rect x="80" y="432" width="640" height="12" rx="2" fill="#e5e7eb"/>
+  <rect x="80" y="454" width="560" height="12" rx="2" fill="#e5e7eb"/>
+  <text x="80" y="494" font-size="13" fill="#64748b" font-style="italic">"7+ yrs building data infra (Kafka, Spark, Iceberg) and migrating 40+ services across runtimes &amp; clouds."</text>
+
+  <rect x="80" y="530" width="170" height="46" rx="8" fill="#0f172a"/>
+  <text x="115" y="559" font-size="14" fill="#ffffff">View my work →</text>
+  <rect x="262" y="530" width="150" height="46" rx="8" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="300" y="559" font-size="14" fill="#0f172a">Read writing</text>
+
+  <!-- Quick stats row -->
+  <g font-family="ui-monospace, SFMono-Regular, monospace">
+    <text x="80" y="620" font-size="28" font-weight="700" fill="#0f172a">7+</text>
+    <text x="80" y="640" font-size="11" fill="#64748b">years tech lead</text>
+
+    <text x="200" y="620" font-size="28" font-weight="700" fill="#0f172a">45</text>
+    <text x="200" y="640" font-size="11" fill="#64748b">services migrated to EKS</text>
+
+    <text x="380" y="620" font-size="28" font-weight="700" fill="#0f172a">10–15 TB</text>
+    <text x="380" y="640" font-size="11" fill="#64748b">Iceberg lakehouse</text>
+
+    <text x="540" y="620" font-size="28" font-weight="700" fill="#0f172a">80M</text>
+    <text x="540" y="640" font-size="11" fill="#64748b">events/day ingested</text>
+
+    <text x="680" y="620" font-size="28" font-weight="700" fill="#0f172a">−30%</text>
+    <text x="680" y="640" font-size="11" fill="#64748b">infra cost</text>
+  </g>
+
+  <!-- Hero side visual: architecture sketch -->
+  <rect x="820" y="160" width="380" height="380" rx="16" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="840" y="190" font-size="10" font-family="ui-monospace, SFMono-Regular, monospace" fill="#64748b">// signature_arch.diagram</text>
+
+  <!-- pipeline boxes -->
+  <rect x="850" y="220" width="100" height="40" rx="6" fill="#ffffff" stroke="#0f172a"/>
+  <text x="868" y="244" font-size="11" fill="#0f172a">Mongo CDC</text>
+
+  <line x1="950" y1="240" x2="980" y2="240" stroke="#0f172a" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <rect x="980" y="220" width="90" height="40" rx="6" fill="#0f172a"/>
+  <text x="1003" y="244" font-size="11" fill="#ffffff">Kafka</text>
+
+  <line x1="1070" y1="240" x2="1100" y2="240" stroke="#0f172a" stroke-width="1.5"/>
+  <rect x="1100" y="220" width="80" height="40" rx="6" fill="#ffffff" stroke="#0f172a"/>
+  <text x="1115" y="244" font-size="11" fill="#0f172a">StarRocks</text>
+
+  <line x1="1025" y1="260" x2="1025" y2="300" stroke="#0f172a" stroke-width="1.5"/>
+  <rect x="960" y="300" width="130" height="40" rx="6" fill="#ffffff" stroke="#0f172a"/>
+  <text x="975" y="324" font-size="11" fill="#0f172a">Spark + Iceberg</text>
+
+  <line x1="1025" y1="340" x2="1025" y2="380" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>
+  <rect x="950" y="380" width="150" height="40" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-dasharray="4 3"/>
+  <text x="978" y="404" font-size="11" fill="#475569">ML / Analytics</text>
+
+  <text x="840" y="480" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#64748b">// real-time + historical, one platform</text>
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0f172a"/>
+    </marker>
+  </defs>
+
+  <!-- ===== Currently strip ===== -->
+  <rect x="0" y="672" width="1280" height="160" fill="#fafaf9"/>
+  <text x="80" y="730" font-size="12" font-weight="700" fill="#0f172a" letter-spacing="2" font-family="ui-monospace, SFMono-Regular, monospace">// CURRENTLY</text>
+  <text x="80" y="772" font-size="22" fill="#0f172a">Tech Lead at a <tspan font-weight="700">multi-tenant SaaS platform</tspan>, based in Bangalore — building real-time</text>
+  <text x="80" y="802" font-size="22" fill="#0f172a">data infra and leading platform-wide migrations across runtimes and CI/CD.</text>
+
+  <!-- ===== Selected Work ===== -->
+  <rect x="0" y="832" width="1280" height="660" fill="#ffffff"/>
+  <text x="80" y="900" font-size="12" font-weight="700" fill="#0f172a" letter-spacing="2" font-family="ui-monospace, SFMono-Regular, monospace">// SELECTED WORK</text>
+  <text x="80" y="942" font-size="32" font-weight="700" fill="#0f172a">Things I've built and led</text>
+  <text x="1075" y="942" font-size="13" fill="#0f172a" text-decoration="underline">See all →</text>
+
+  <!-- Project 1: Analytics platform -->
+  <g>
+    <rect x="80" y="980" width="370" height="430" rx="12" fill="#fafaf9" stroke="#e5e7eb"/>
+    <rect x="80" y="980" width="370" height="180" rx="12" fill="#0f172a"/>
+    <text x="100" y="1010" font-size="10" font-family="ui-monospace, SFMono-Regular, monospace" fill="#64748b">// case 01</text>
+    <text x="100" y="1060" font-size="22" font-weight="700" fill="#ffffff">Real-time analytics</text>
+    <text x="100" y="1086" font-size="22" font-weight="700" fill="#ffffff">platform</text>
+    <text x="100" y="1130" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#94a3b8">Debezium → Kafka → StarRocks</text>
+
+    <text x="100" y="1192" font-size="11" fill="#64748b">SaaS platform · 2024–2025 · Sole engineer</text>
+    <text x="100" y="1220" font-size="14" font-weight="600" fill="#0f172a">First analytics platform, ms-latency</text>
+    <text x="100" y="1240" font-size="14" font-weight="600" fill="#0f172a">dashboards + 10–15 TB lakehouse.</text>
+    <rect x="100" y="1260" width="320" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="100" y="1278" width="280" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="100" y="1296" width="240" height="10" rx="2" fill="#e5e7eb"/>
+
+    <g font-size="10" font-family="ui-monospace, SFMono-Regular, monospace">
+      <rect x="100" y="1330" width="60" height="22" rx="11" fill="#eef2ff"/>
+      <text x="113" y="1345" fill="#4338ca">Kafka</text>
+      <rect x="166" y="1330" width="80" height="22" rx="11" fill="#eef2ff"/>
+      <text x="180" y="1345" fill="#4338ca">Debezium</text>
+      <rect x="252" y="1330" width="58" height="22" rx="11" fill="#eef2ff"/>
+      <text x="263" y="1345" fill="#4338ca">Spark</text>
+      <rect x="316" y="1330" width="64" height="22" rx="11" fill="#eef2ff"/>
+      <text x="328" y="1345" fill="#4338ca">Iceberg</text>
+    </g>
+    <text x="100" y="1390" font-size="13" font-weight="600" fill="#0f172a">Read case study →</text>
+  </g>
+
+  <!-- Project 2: EKS migration -->
+  <g>
+    <rect x="470" y="980" width="370" height="430" rx="12" fill="#fafaf9" stroke="#e5e7eb"/>
+    <rect x="470" y="980" width="370" height="180" rx="12" fill="#1e3a8a"/>
+    <text x="490" y="1010" font-size="10" font-family="ui-monospace, SFMono-Regular, monospace" fill="#93c5fd">// case 02</text>
+    <text x="490" y="1060" font-size="22" font-weight="700" fill="#ffffff">EC2 → EKS migration</text>
+    <text x="490" y="1086" font-size="22" font-weight="700" fill="#ffffff">at scale</text>
+    <text x="490" y="1130" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#bfdbfe">45 services · 250+ instances</text>
+
+    <text x="490" y="1192" font-size="11" fill="#64748b">SaaS platform · 2024 · Lead</text>
+    <text x="490" y="1220" font-size="14" font-weight="600" fill="#0f172a">Cut deploy 90→20 min, infra cost</text>
+    <text x="490" y="1240" font-size="14" font-weight="600" fill="#0f172a">−30%, autoscaling enabled.</text>
+    <rect x="490" y="1260" width="320" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="490" y="1278" width="280" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="490" y="1296" width="240" height="10" rx="2" fill="#e5e7eb"/>
+
+    <g font-size="10" font-family="ui-monospace, SFMono-Regular, monospace">
+      <rect x="490" y="1330" width="56" height="22" rx="11" fill="#eef2ff"/>
+      <text x="500" y="1345" fill="#4338ca">EKS</text>
+      <rect x="552" y="1330" width="76" height="22" rx="11" fill="#eef2ff"/>
+      <text x="565" y="1345" fill="#4338ca">Terraform</text>
+      <rect x="634" y="1330" width="68" height="22" rx="11" fill="#eef2ff"/>
+      <text x="646" y="1345" fill="#4338ca">Jenkins</text>
+      <rect x="708" y="1330" width="58" height="22" rx="11" fill="#eef2ff"/>
+      <text x="719" y="1345" fill="#4338ca">SRE</text>
+    </g>
+    <text x="490" y="1390" font-size="13" font-weight="600" fill="#0f172a">Read case study →</text>
+  </g>
+
+  <!-- Project 3: Intugine logistics -->
+  <g>
+    <rect x="860" y="980" width="340" height="430" rx="12" fill="#fafaf9" stroke="#e5e7eb"/>
+    <rect x="860" y="980" width="340" height="180" rx="12" fill="#7c2d12"/>
+    <text x="880" y="1010" font-size="10" font-family="ui-monospace, SFMono-Regular, monospace" fill="#fed7aa">// case 03</text>
+    <text x="880" y="1060" font-size="22" font-weight="700" fill="#ffffff">GPS telemetry</text>
+    <text x="880" y="1086" font-size="22" font-weight="700" fill="#ffffff">platform</text>
+    <text x="880" y="1130" font-size="11" font-family="ui-monospace, SFMono-Regular, monospace" fill="#fed7aa">8–10k vehicles · 80M events/day</text>
+
+    <text x="880" y="1192" font-size="11" fill="#64748b">Logistics startup · 2020–2024 · Lead (5 eng)</text>
+    <text x="880" y="1220" font-size="14" font-weight="600" fill="#0f172a">Mid-mile tracking for quick-commerce —</text>
+    <text x="880" y="1240" font-size="14" font-weight="600" fill="#0f172a">cross-source GPS normalization at scale.</text>
+    <rect x="880" y="1260" width="280" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="880" y="1278" width="240" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="880" y="1296" width="200" height="10" rx="2" fill="#e5e7eb"/>
+
+    <g font-size="10" font-family="ui-monospace, SFMono-Regular, monospace">
+      <rect x="880" y="1330" width="72" height="22" rx="11" fill="#eef2ff"/>
+      <text x="893" y="1345" fill="#4338ca">Node.js</text>
+      <rect x="958" y="1330" width="76" height="22" rx="11" fill="#eef2ff"/>
+      <text x="971" y="1345" fill="#4338ca">MongoDB</text>
+      <rect x="1040" y="1330" width="74" height="22" rx="11" fill="#eef2ff"/>
+      <text x="1052" y="1345" fill="#4338ca">Keycloak</text>
+    </g>
+    <text x="880" y="1390" font-size="13" font-weight="600" fill="#0f172a">Read case study →</text>
+  </g>
+
+  <!-- More projects link row -->
+  <text x="80" y="1450" font-size="12" fill="#64748b">Also: Java 8→17 upgrade across 35 services · Node 8→18 across 8 services · Kafka+Cassandra activity ingestion platform</text>
+
+  <!-- ===== From the writing ===== -->
+  <rect x="0" y="1492" width="1280" height="440" fill="#fafaf9"/>
+  <text x="80" y="1558" font-size="12" font-weight="700" fill="#0f172a" letter-spacing="2" font-family="ui-monospace, SFMono-Regular, monospace">// WRITING</text>
+  <text x="80" y="1600" font-size="32" font-weight="700" fill="#0f172a">Notes from the work</text>
+  <text x="1080" y="1600" font-size="13" fill="#0f172a" text-decoration="underline">All posts →</text>
+
+  <g>
+    <rect x="80" y="1640" width="370" height="240" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+    <text x="100" y="1672" font-size="11" fill="#64748b" font-family="ui-monospace, SFMono-Regular, monospace">2026-05-14 · 9 min · MIGRATIONS</text>
+    <text x="100" y="1706" font-size="19" font-weight="700" fill="#0f172a">Migrating 45 services from</text>
+    <text x="100" y="1730" font-size="19" font-weight="700" fill="#0f172a">EC2 to EKS without downtime</text>
+    <rect x="100" y="1752" width="320" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="100" y="1770" width="280" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="100" y="1788" width="240" height="10" rx="2" fill="#e5e7eb"/>
+    <g font-size="10" font-family="ui-monospace, SFMono-Regular, monospace">
+      <rect x="100" y="1820" width="56" height="22" rx="11" fill="#eef2ff"/>
+      <text x="110" y="1835" fill="#4338ca">EKS</text>
+      <rect x="162" y="1820" width="58" height="22" rx="11" fill="#eef2ff"/>
+      <text x="173" y="1835" fill="#4338ca">SRE</text>
+    </g>
+  </g>
+  <g>
+    <rect x="470" y="1640" width="370" height="240" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+    <text x="490" y="1672" font-size="11" fill="#64748b" font-family="ui-monospace, SFMono-Regular, monospace">2026-04-28 · 7 min · DATA</text>
+    <text x="490" y="1706" font-size="19" font-weight="700" fill="#0f172a">Why we replaced analytics</text>
+    <text x="490" y="1730" font-size="19" font-weight="700" fill="#0f172a">on Mongo with StarRocks</text>
+    <rect x="490" y="1752" width="320" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="490" y="1770" width="280" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="490" y="1788" width="240" height="10" rx="2" fill="#e5e7eb"/>
+    <g font-size="10" font-family="ui-monospace, SFMono-Regular, monospace">
+      <rect x="490" y="1820" width="70" height="22" rx="11" fill="#eef2ff"/>
+      <text x="500" y="1835" fill="#4338ca">StarRocks</text>
+      <rect x="566" y="1820" width="60" height="22" rx="11" fill="#eef2ff"/>
+      <text x="578" y="1835" fill="#4338ca">Kafka</text>
+    </g>
+  </g>
+  <g>
+    <rect x="860" y="1640" width="340" height="240" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+    <text x="880" y="1672" font-size="11" fill="#64748b" font-family="ui-monospace, SFMono-Regular, monospace">2026-04-10 · 6 min · NOTES</text>
+    <text x="880" y="1706" font-size="19" font-weight="700" fill="#0f172a">Cascading dep hell:</text>
+    <text x="880" y="1730" font-size="19" font-weight="700" fill="#0f172a">Java 8 → 17 across 35 svc</text>
+    <rect x="880" y="1752" width="280" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="880" y="1770" width="240" height="10" rx="2" fill="#e5e7eb"/>
+    <rect x="880" y="1788" width="200" height="10" rx="2" fill="#e5e7eb"/>
+    <g font-size="10" font-family="ui-monospace, SFMono-Regular, monospace">
+      <rect x="880" y="1820" width="50" height="22" rx="11" fill="#eef2ff"/>
+      <text x="889" y="1835" fill="#4338ca">Java</text>
+      <rect x="936" y="1820" width="80" height="22" rx="11" fill="#eef2ff"/>
+      <text x="947" y="1835" fill="#4338ca">Migrations</text>
+    </g>
+  </g>
+
+  <!-- ===== Footer ===== -->
+  <rect x="0" y="1932" width="1280" height="218" fill="#0f172a"/>
+  <text x="80" y="1990" font-size="22" font-weight="700" fill="#ffffff">Have a system that needs untangling?</text>
+  <text x="80" y="2024" font-size="13" fill="#94a3b8">Open to staff / principal IC and tech-lead roles. Best reached at the address below.</text>
+  <text x="80" y="2070" font-size="14" font-weight="600" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, monospace">navneetlalg@gmail.com</text>
+  <text x="80" y="2092" font-size="12" fill="#94a3b8">Bangalore, IN · UTC+5:30</text>
+
+  <g font-size="12" fill="#94a3b8">
+    <text x="980" y="1990">GitHub</text>
+    <text x="1040" y="1990">LinkedIn</text>
+    <text x="1110" y="1990">X / Twitter</text>
+    <text x="980" y="2014">RSS</text>
+    <text x="1020" y="2014">Resume (PDF)</text>
+  </g>
+  <text x="80" y="2128" font-size="11" fill="#64748b" font-family="ui-monospace, SFMono-Regular, monospace">© 2026 Navneet Lal Gupta · Built with Next.js + MDX</text>
+</svg>

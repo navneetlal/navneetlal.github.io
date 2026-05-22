@@ -1,0 +1,21 @@
+---
+title: "OpenTelemetry: trace, log, metric — one stack, three signals"
+description: "What it actually costs to consolidate observability onto OTel + Grafana + Loki + Tempo + VictoriaMetrics, and what you get back."
+publishedAt: 2026-02-02
+category: "Distributed Systems"
+tags: ["OpenTelemetry", "Observability", "Grafana"]
+readingMinutes: 9
+coverColor: "#064e3b"
+coverEyebrow: "// distributed systems"
+coverTitle: "OTel + Grafana stack"
+coverSubtitle: "trace / log / metric on one backbone"
+---
+
+> Stub. Full post body to follow.
+
+The three observability signals — traces, logs, metrics — have historically
+lived in different vendors with different query languages, different sampling
+philosophies, and different costs. The OTel stack lets one ingest pipeline
+feed all three, and Grafana's dashboards can correlate across them with
+TraceID-as-foreign-key. The migration is non-trivial; the steady state pays
+for itself the first time someone debugs a production incident at 2 a.m.
