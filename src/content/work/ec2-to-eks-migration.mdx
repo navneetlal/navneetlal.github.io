@@ -16,18 +16,87 @@ coverColor: "#1e3a8a"
 Moved 45 microservices off long-lived EC2/systemd hosts and onto EKS — across
 customer tenants and 250+ instances — without a maintenance window.
 
-## Problem
+## The 90-minute deploy
 
-Deploys ran for 90 minutes. Capacity was provisioned by hand; off-peak headroom
-sat idle 24/7. Restarting a single service required SRE pager-time.
+The application ran on EC2 as a fleet of zip-and-script services: pull the
+artifact, unzip it, run a chain of post-unzip shell commands to wire things
+up, hand control to systemd. Because some services needed others running
+before *their own* post-unzip script could finish, the deploy was implicitly
+sequential — service B's pipeline stalled until service A's
+`Active: active (running)` line landed. The 90-minute window was the cost of
+that ordering, multiplied across 45 services and 250+ instances.
 
-## Approach
+Nobody had broken it before because the ordering wasn't documented anywhere
+except in the failure modes when you tried to deploy out of sequence.
 
-- Rebuilt service Docker images on a shared base, fronted by Helm charts.
-- Tenant-aware deployment pipelines on Jenkins, gated by smoke tests.
-- Authored runbooks SRE owned for the customer rollout.
+The migration's real goal wasn't "use Kubernetes." It was to break the
+implicit dependency graph between services and let each service own its own
+readiness.
 
-## Outcome
+## Why EKS, not the alternatives
 
-Deploys 90 → 20 minutes. Infra cost −30% from autoscaling-driven right-sizing.
-First time the platform could scale horizontally on demand.
+The shortlist:
+
+- **Stay on EC2, add Argo or Spinnaker.** Doesn't solve the ordering problem —
+  the deploy tool gets prettier, the implicit dependencies stay.
+- **Raw Kubernetes on EC2.** Too much undifferentiated platform work for a lean
+  team. Cluster lifecycle, upgrades, control-plane HA — all things you pay AWS
+  to make boring.
+- **ECS.** Doesn't expose `initContainers` as the first-class primitive, and
+  the team's muscle memory was already Kubernetes-shaped.
+- **AKS / GKE.** The rest of the platform was deeply on AWS. Switching cloud
+  providers for a deploy-platform decision didn't pencil.
+
+EKS won on two specific axes, not the generic "Kubernetes is good" one:
+
+1. **`initContainers` as the dependency primitive.** Each service declares what
+   it needs running before its own main process starts. The ordering moves from
+   "deploy in this brittle sequence" to "deploy everything; each pod waits for
+   its own preconditions." Same outcome, far less coupling.
+2. **Bin-packing instead of peak-sized hosts.** Most services peaked for one or
+   two hours a day and idled the rest. On EC2 we sized for peak and paid for
+   trough; an instance with maxed-out CPU at 11am was an instance with 8% CPU
+   at 3am. EKS lets a service scale down to a single pod off-peak and burst
+   horizontally during the load window. The −30% infra cost is mostly this.
+
+## What the migration actually felt like
+
+The plan assumed every service would be stateless at cutover. They weren't,
+and we knew it — the rollout strategy was "migrate now, make the long tail
+stateless service-by-service afterwards."
+
+The thing that surprised us was that AWS got a vote on the timeline. Managed
+node-group instances get reclaimed; pods get evicted. We expected a slow
+follow-on stream of stateless conversions; we got a fast one because some
+reclaims hit stateful pods before we'd reached them on the list. Multiple
+customers saw it. We caught up, the dust settled, but it was the bruise of
+the project.
+
+In hindsight the warning sign was obvious: every conversation about "we'll get
+to stateless once we're on EKS" was a deferred risk on a clock that wasn't
+ours.
+
+## What changed beyond the numbers
+
+The 90→20 minute deploy and the −30% infra cost are the headline. The line
+item that surprised me was observability.
+
+On EC2 each host ran multiple services. When a box's CPU climbed, you saw
+"the host is hot" — attribution was a guessing game, usually resolved with
+`top` and intuition. On EKS each service gets its own pod-level metrics, and
+"which service is the actual culprit?" becomes a graph instead of a hunch.
+Optimization went from "the box that's hottest most often" to "the service
+whose p99 is regressing this week."
+
+The deploy-paranoia cliff was the other one. Once any service could be rolled
+back independently in a couple of minutes, the cost of trying things dropped,
+and the team's tolerance for shipping mid-day went up.
+
+## What I'd do differently
+
+Sequence the dependency work and the platform migration the other way around.
+Make the services stateless first — on EC2, in Docker, with whatever
+scaffolding is closest at hand — *then* move to EKS once there's nothing
+stateful left to surprise the eviction loop. The platform migration only
+earns its keep on stateless workloads; doing it before the stateless work
+just stacks two risk profiles into one project.

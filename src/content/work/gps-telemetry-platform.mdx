@@ -13,26 +13,97 @@ metrics:
 coverColor: "#7c2d12"
 ---
 
-Mid-mile logistics tracking for enterprise quick-commerce customers — ingesting
-GPS telemetry from 8–10k vehicles across Indian metros.
+Mid-mile logistics tracking for enterprise quick-commerce customers.
+Tech-led a five-engineer team (3 backend, 2 frontend) over three years —
+building both the GPS ingest pipeline and the customer-facing tracking
+dashboards on top of it.
 
-## Problem
+## A platform for vehicles you don't own
 
-Customer-supplied fleet trackers ranged from polished APIs to flaky devices on
-2G. Pings arrived 10–30s apart depending on motion state. Cross-source
-normalization had to happen before any downstream system saw the data.
+The product looked simple — track 8–10k vehicles across Indian metros, show
+the customer where their fleet is, page someone when a vehicle stalls — and
+the headline numbers (40–80M events a day) made it sound like a throughput
+problem. It wasn't, not primarily. Throughput we sized for once and stopped
+worrying about. The problem that ate year 2 and year 3 was data quality
+from cheap 2G devices.
 
-## Approach
+We didn't own the trackers. Customers brought their own — some polished
+HTTP-pushing devices on stable cellular, some bottom-end GPS units on
+patchy 2G that would drop offline for an hour and come back claiming to be
+five hundred kilometers from where they'd last been seen. The platform
+either dealt with that gracefully or it didn't.
 
-- Built the org's first CI/CD pipeline (Jenkins, solo) and migrated 7–10
-  services to EKS — deploy freq 1/week → 2–3/day.
-- Integration layer over carrier APIs, customer-internal systems, and
-  third-party fleet/contract-management tools.
-- Cross-source GPS normalization + noise filtering as a first-class pipeline
-  stage.
-- Replaced custom auth with Keycloak as the customer-facing SSO layer.
+## The gateway: one shape, many protocols
 
-## Outcome
+The first piece of platform work the team owned was a **gateway** sitting
+between the field and everything else. Per device family, it encoded:
 
-Customer onboarding unlocked regardless of the customer's existing tracking
-stack. 40–80M events/day at peak.
+- **How the device delivers data.** Some devices push — a webhook into our
+  endpoint when they have a fix. Some require a pull — we poll the
+  manufacturer's central server on a schedule and ask for each device's
+  latest position. Same logical signal, two completely different ingest
+  modes, two completely different failure modes.
+- **What the device's data actually looks like.** No two manufacturers
+  agreed on a schema. Some sent NMEA-shaped strings, some custom JSON,
+  some binary frames over HTTP. Adapter per device family; the gateway
+  emitted a single normalized event shape downstream.
+- **Adaptive sampling.** Cadence wasn't ours to set — the devices
+  themselves throttled pings based on motion state (a stopped truck pings
+  every ~30s; a moving one every ~10s). The gateway treated that as a
+  fact about the data, not a contract.
+
+Downstream of the gateway, every service — the tracking UI, the alerting
+pipeline, the historical store — saw the same uniform event stream. The
+heterogeneity stopped at the gateway.
+
+## When trucks teleport
+
+What did we actually get paged for? Two recurring shapes:
+
+**Devices going dark.** A truck has been pinging every fifteen seconds for
+two hours, then nothing. Sometimes the cellular connection dropped.
+Sometimes the device rebooted into a bad state. Sometimes the upstream
+system we polled stopped updating and our endpoint quietly returned stale
+fixes. The customer's dashboard didn't care about the difference — it just
+stopped moving — so we treated all three at the gateway, with per-source
+liveness probes and a dead-letter routing for stale streams.
+
+**Trucks teleporting to the middle of the Indian Ocean.** A device with a
+bad GPS fix would emit a coordinate hundreds of kilometers off — sometimes
+in the sea, sometimes in another country, sometimes flickering between two
+plausible locations a few times a minute. Pre-filter or you'd show the
+customer their truck halfway to Africa. Motion-aware filters in the
+gateway (speed-of-impossible, distance-from-last-known, fix-quality
+flags) caught most of them before they ever hit the UI.
+
+## What the gateway unlocked
+
+The numbers — 8–10k vehicles, 40–80M events a day — measure scale. The
+business outcome that mattered more was that any new customer's existing
+tracker fleet could be onboarded without asking them to change hardware.
+Sales conversations stopped having a hardware-swap precondition; the
+gateway absorbed whatever the customer already had running.
+
+Alongside the gateway work, the team did the unglamorous platform stuff
+that compounded across the three years: built the org's first CI/CD
+pipeline on Jenkins (solo), migrated 7–10 services off EC2 onto EKS, and
+rolled out Keycloak to replace hand-rolled customer-facing auth. Deploy
+frequency went from once a week to two or three a day; on-call complexity
+dropped the day Keycloak replaced the auth code path.
+
+## What I'd change
+
+Two specific things I'd undo with year-3 knowledge:
+
+**MQTT → Kafka for the internal bus.** The pipeline was mostly MQTT. MQTT
+is the right protocol for *edge-to-cloud* on flaky links — it's exactly
+what it was designed for. But we kept using it inside the cloud for
+service-to-service fanout, and replayability was painful. A consumer down
+for an hour meant a lossy recovery, not a "rewind the offset" recovery.
+Kafka's log model would have made the recovery cases the boring ones.
+
+**Mongo Atlas → a write-heavy database.** We sized Mongo Atlas almost
+entirely for write throughput; reads were rare and small. A database
+purpose-built for that write profile — Cassandra, ScyllaDB, a timeseries
+store — would have meant less Atlas tier-bumping and a saner cost curve.
+Mongo handled the load, but it wasn't the right tool for the load.

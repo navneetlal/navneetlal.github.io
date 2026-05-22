@@ -13,25 +13,112 @@ metrics:
 coverColor: "#0f172a"
 ---
 
-The company's first analytics platform — built end-to-end from CDC source
-through to customer-facing dashboards and an ML/historical lakehouse.
+The company's first analytics platform, built end-to-end: CDC out of the
+multi-tenant Mongo cluster into Kafka, a real-time OLAP path to
+customer-facing dashboards, and a Spark + Iceberg lakehouse serving
+historical and ML analytics. Sole engineer.
 
-## Problem
+## Ahead of the wall, not after it
 
-Analytics ran on the multi-tenant Mongo cluster, queueing behind transactional
-write load with ~50 collections per tenant. Dashboards were minutes-stale; ad-hoc
-analytical queries were not viable at all.
+Mongo was the OLTP store and was never meant to carry analytical query load.
+By 2024 the RAM pressure on the cluster and the p95 on analytics-shaped API
+calls had both started drifting in the wrong direction. Nothing had failed
+yet — but the shape was clear: keep dual-purposing OLTP for OLAP and the
+next year was going to be a slow grind of customer-visible degradation.
 
-## Approach
+The mandate was to get ahead of that, with one engineer, before it turned
+into an incident.
 
-- **CDC stream:** Debezium tails Mongo oplogs into Kafka, one topic per source
-  collection per tenant.
-- **Hot path:** Kafka → StarRocks for sub-second customer dashboards.
-- **Cold path:** Kafka → Spark Structured Streaming → Iceberg lakehouse with
-  bronze/silver/gold tiers, orchestrated by Airflow.
+## Two paths, one query engine
 
-## Outcome
+The design splits cleanly into a hot path and a cold path, with StarRocks
+deployed twice in different modes to serve both.
 
-10–15 TB of historical analytics data off the OLTP store, ms-latency on the
-live dashboards, and a lakehouse footprint that ML/data-science consume
-without touching the multi-tenant Mongo.
+**Hot path (ETL, ms-latency).** Debezium tails the Mongo oplog into Kafka,
+one topic per source collection per tenant. From Kafka, a purpose-built Go
+relay consumes events, transforms them into the gold-tier shape the
+dashboards expect, and batch-pushes into StarRocks via its `STREAM LOAD`
+HTTP endpoint. ETL on the wire, not on the warehouse. The Go service is
+small, opinionated, and avoids the operational footprint of running Spark
+Structured Streaming or Flink just to hold end-to-end latency in the
+hundreds of milliseconds.
+
+**Cold path (ELT, 10–15 TB lakehouse).** The same Kafka stream lands in
+Iceberg as bronze tier — raw, deduped on key, no transformations. Spark jobs
+scheduled by Airflow promote bronze → silver (cleaned, conformed) → gold
+(business facts). Gold is exposed not by re-ingesting it into a separate
+OLAP database but by pointing a second StarRocks cluster at the Iceberg
+tables in **shared-data mode** — StarRocks acts as the federation engine
+and reads Iceberg directly. One query language across hot and cold; the hot
+cluster is tuned for sub-second customer dashboards, the cold one for
+"scan a year of history" reports.
+
+The architectural payoff is the unification: one OLAP engine to operate,
+one SQL surface to teach, two deployments tuned for two latency budgets.
+
+## What we picked and why
+
+POCs ran on each:
+
+- **StarRocks over Pinot or ClickHouse.** Pinot needed more upfront tuning
+  commitment than a sole-engineer project could absorb — segments, real-time
+  servers, lookup tables, controllers. ClickHouse was competitive on the
+  realtime side, but StarRocks's warehouse-shaped query model — and the
+  fact that the same engine could federate over Iceberg for the cold
+  path — collapsed two systems to learn into one.
+- **Iceberg over Delta Lake or Hudi.** Iceberg's Parquet support was the
+  most mature of the three, and the momentum behind it as the open
+  table-format default was hard to argue with.
+- **Custom Go relay over Spark/Flink for the hot path.** The transformation
+  shape was bounded — gold-tier dashboard payloads, not a general-purpose
+  streaming job. `STREAM LOAD` already expects batches; a small Go service
+  hitting that endpoint with backpressure and retries is a few hundred
+  lines and runs on a single pod. A Structured Streaming job is a small
+  cluster.
+- **Airflow + Spark for the lakehouse ELT.** Well-trodden, easy to staff,
+  fits the bronze→silver→gold promotion pattern exactly. Boring is the
+  feature.
+
+## Where it gets hard: replay + schema evolution
+
+CDC pipelines fail in two specific ways, and a design either tolerates them
+or doesn't:
+
+**Replay.** Every component needs to support reprocessing from an earlier
+Kafka offset without polluting downstream state. The Go relay is idempotent
+on the gold key. Spark jobs are written so silver-from-bronze is a pure
+function of bronze. Iceberg's snapshot model makes "drop the last hour and
+recompute" survivable rather than terrifying.
+
+**Schema evolution.** Mongo's flexible schema means a tenant adding a field
+is a normal Tuesday. That new field shows up in the oplog, Debezium emits
+it, and now every downstream layer needs an answer — Kafka topic schema,
+the Go relay's struct definitions, StarRocks table DDL, Iceberg table
+schema. Each layer has its own evolution semantics; getting them aligned —
+and *staying* aligned through tenant-specific shape changes — was the
+project's recurring tax.
+
+Neither problem is glamorous, but they're where the design either earns
+its keep or quietly accumulates debt.
+
+## What changed beyond the numbers
+
+The headline metrics — 10–15 TB lakehouse, ms-latency dashboards — are in
+the résumé. The line item that mattered most day-to-day was the death of
+one-off Mongo exports.
+
+Before: any heavy analytical ask — a customer-success retro, a finance
+forecast, a debugging deep-dive — meant a `mongoexport` job against a
+secondary, hand-massaged into CSV, loaded somewhere local. Slow, costly,
+and another hit on the OLTP cluster that was already under pressure.
+
+After: ask the lakehouse. Scan a year of history. No coordination tax, no
+OLTP impact, no manual handoff.
+
+## What I'd change
+
+Less than I'd usually expect from a project this size. The picks were
+industry-standard for a reason — Iceberg, StarRocks, Spark + Airflow,
+Kafka, Debezium — and the two-paths-one-engine architecture has paid for
+itself. When a design slots into the patterns the field has converged on,
+it mostly means the next maintainer will recognize it on sight.
